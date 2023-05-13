@@ -3,7 +3,7 @@
 namespace App\Support;
 
 use Illuminate\Database\Eloquent\Builder;
-use Carbon;
+use Illuminate\Support\Carbon;
 
 class BuilderMacro
 {
@@ -18,10 +18,11 @@ class BuilderMacro
          */
         return function (int $page = null, int $perPage = null): CustomPaginator {
             /** @var Builder $this */
-            $page = $page ?: request()->integer('page', 1);
-            $perPage = $perPage ?: request()->integer('per_page', 15);
+            $page = $page ?: request()->integer(config('support.pagination.page_param'), 1);
+            $perPage = $perPage ?: request()->integer(config('support.pagination.page_size_param'), 15);
+            $maxPerPage = config('support.pagination.max_page_size');
 
-            $instance = $this->paginate(perPage: $perPage, page: $page);
+            $instance = $this->paginate(page: $page, perPage: min($perPage, $maxPerPage));
 
             return new CustomPaginator($instance);
         };
@@ -41,10 +42,11 @@ class BuilderMacro
              * @var Builder $this
              * @var Builder $query
              */
-            return $this->where(function ($query) use ($field, $date) {
-                $query->where($field, '>=', $date . ' 00:00:00')
-                    ->where($field, '<=', $date . ' 23:59:59');
-            });
+            $time = Carbon::parse($date);
+            return $this->where(
+                fn($query) => $query->where($field, '>=', $time->startOfDay()->toDateTimeString())
+                    ->where($field, '<=', $time->endOfDay()->toDateTimeString())
+            );
         };
     }
 
@@ -61,11 +63,32 @@ class BuilderMacro
              * @var Builder $this
              * @var Builder $query
              */
-            return $this->where(function ($query) use ($field) {
-                $date = date('Y-m-d');
-                $query->where($field, '>=', $date . ' 00:00:00')
-                    ->where($field, '<=', $date . ' 23:59:59');
-            });
+            $time = Carbon::now();
+            return $this->where(
+                fn($query) => $query->where($field, '>=', $time->startOfDay()->toDateTimeString())
+                    ->where($field, '<=', $time->endOfDay()->toDateTimeString())
+            );
+        };
+    }
+
+    public function whereYesterday()
+    {
+        /**
+         * 查询时间字段日期为今天的
+         *
+         * @param string $field
+         * @return Builder
+         */
+        return function (string $field) {
+            /**
+             * @var Builder $this
+             * @var Builder $query
+             */
+            $time = Carbon::yesterday();
+            return $this->where(
+                fn($query) => $query->where($field, '>=', $time->startOfDay()->toDateTimeString())
+                    ->where($field, '<=', $time->endOfDay()->toDateTimeString())
+            );
         };
     }
 }

@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ForbiddenException;
-use App\Exceptions\ServiceException;
+use App\Constants\ResponseCode;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class ExampleController extends BaseController
 {
     public function index(Request $request)
     {
-        return $this->responseSuccess(User::customPaginate(1, 2));
+        $data = User::query()->whereEqDate('updated_at', '2023-05-13')->customPaginate(1,);
+
+        return $this->response(ResponseCode::SUCCESS, $data, '成功');
     }
 }

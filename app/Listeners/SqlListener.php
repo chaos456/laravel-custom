@@ -18,6 +18,10 @@ class SqlListener
      */
     public function handle(QueryExecuted $event)
     {
+        if (!config('support.sql_log.enable')) {
+            return;
+        }
+
         $i = 0;
         $rawSql = preg_replace_callback('/\?/', function ($matches) use ($event, &$i) {
             $item = $event->bindings[$i] ?? $matches[0];

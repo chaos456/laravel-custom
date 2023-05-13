@@ -29,9 +29,10 @@ class ApiLog
     {
         $this->request = $request;
         $this->enableRequestId();
-        $this->requestLog();
+
+        config('support.api_log.enable') && $this->requestLog();
         $response = $next($request);
-        $this->responseLog($response);
+        config('support.api_log.enable') && $this->responseLog($response);
 
         return $response;
     }
@@ -65,8 +66,8 @@ class ApiLog
         $content = json_decode($response->getContent(), true);
 
         $extra = [
-            'code'      => $content['code'],
-            'msg'       => $content['msg'],
+            'code' => $content['code'],
+            'msg' => $content['msg'],
             'used_time' => round((microtime(true) - LARAVEL_START) * 1000, 2) . 'ms'
         ];
 

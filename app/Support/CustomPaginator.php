@@ -36,11 +36,11 @@ class CustomPaginator extends LengthAwarePaginator
     {
         return [
             'paginate' => [
-                'total'    => $this->total(),
-                'page'     => $this->currentPage(),
-                'per_page' => $this->perPage(),
+                'total' => $this->total(),
+                config('support.pagination.page_param') => $this->currentPage(),
+                config('support.pagination.page_size_param') => $this->perPage(),
             ],
-            'list'     => $this->getCollection(),
+            'list' => $this->getCollection(),
         ];
     }
 }
