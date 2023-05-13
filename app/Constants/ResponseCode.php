@@ -3,7 +3,7 @@
 namespace App\Constants;
 
 /**
- * api响应code及msg常量
+ * 存放项目所有api响应code及msg常量
  */
 class ResponseCode
 {

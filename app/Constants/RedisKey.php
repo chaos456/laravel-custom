@@ -3,7 +3,7 @@
 namespace App\Constants;
 
 /**
- * redis key常量
+ * 存放项目所有redis key常量
  */
 class RedisKey
 {
