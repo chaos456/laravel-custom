@@ -7,7 +7,7 @@ return [
     'pagination' => [
         'page_param' => 'page', // 页码参数名
         'page_size_param' => 'per_page', // 每页条数参数名
-        'max_page_size' => 100 // 每页最多返回几条
+        'max_page_size' => 50 // 每页最多返回几条
     ],
     'api_log' => [
         'enable' => env('API_LOG_ENABLE', false) // 是否开启api日志记录

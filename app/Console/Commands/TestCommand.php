@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
-use Faker\Factory;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -29,7 +28,6 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        Factory::create('zh_CN');
         User::factory(10)->create();
 
         return self::SUCCESS;
