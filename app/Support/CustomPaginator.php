@@ -11,7 +11,6 @@ class CustomPaginator extends LengthAwarePaginator
 {
     /**
      * @param LengthAwarePaginator $paginate 原始分页对象
-     * @param bool $fetchAll 标识是否取回所有数据
      *
      * @return void
      */

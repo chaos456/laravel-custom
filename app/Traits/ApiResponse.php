@@ -30,7 +30,7 @@ trait ApiResponse
         return response()->json([
             'code' => $code,
             'data' => $data,
-            'msg'  => $msg
+            'msg' => $msg
         ]);
     }
 

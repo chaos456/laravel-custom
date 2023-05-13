@@ -10,7 +10,7 @@ class ExampleController extends BaseController
 {
     public function index(Request $request)
     {
-        $data = User::query()->whereEqDate('updated_at', '2023-05-13')->customSimplePaginate();
+        $data = User::query()->customSimplePaginate();
 
         return $this->response(ResponseCode::SUCCESS, $data, '成功');
     }
