@@ -13,25 +13,25 @@ class Context
 {
     use InstanceMake;
 
-    protected string $uuid;
+    protected string $requestId;
 
     public function __construct()
     {
-        $this->setUuid();
+        $this->setRequestId();
     }
 
     /**
      * @param string $uuid
      */
-    public function setUuid(): void
+    public function setRequestId(): void
     {
-        $this->uuid = $this->generateUuid();
+        $this->requestId = $this->generateRequestId();
     }
 
     /**
      * @param string $uuid
      */
-    protected function generateUuid()
+    protected function generateRequestId()
     {
         return sprintf('%s%s', Str::random(5), uniqid());
     }
@@ -39,8 +39,8 @@ class Context
     /**
      * @return string
      */
-    public function getUuid(): string
+    public function getRequestId(): string
     {
-        return $this->uuid;
+        return $this->requestId;
     }
 }

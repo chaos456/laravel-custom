@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
         // 捕获业务异常
         $this->renderable(function (Throwable $e, $request) {
             $msg = config('app.debug') ? $e->getMessage() : '系统错误';
-            $msg .= ' ' . Context::singleton()->getUuid();
+            $msg .= ' ' . Context::singleton()->getRequestId();
             return $this->responseError($msg);
         });
     }

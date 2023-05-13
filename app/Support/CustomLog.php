@@ -33,20 +33,20 @@ class CustomLog
     protected static function createCustomLogger(string $name): Logger
     {
         $logFilePath = sprintf('%s/%s.log', storage_path('logs'), $name);
-        $requestId = Context::singleton()->getUuid();
-
         $handler = new RotatingFileHandler($logFilePath, 30, Logger::DEBUG);
 
-        if (self::$withRequestId) {
-            $format = "[%datetime%] {$requestId} %level_name%: %message% %context% %extra%\n";
-        } else {
-            $format = "[%datetime%] %level_name%: %message% %context% %extra%\n";
-        }
-
+        $format = "[%datetime%] %level_name%: %message% %context% %extra%\n";
         $handler->setFormatter(new LineFormatter($format, Carbon::DEFAULT_TO_STRING_FORMAT, true, true));
 
         $logger = new Logger($name);
         $logger->pushHandler($handler);
+        $logger->pushProcessor(function ($record) {
+            if (self::$withRequestId) {
+                $record['extra']['request_id'] = Context::singleton()->getRequestId();
+            }
+
+            return $record;
+        });
 
         return $logger;
     }

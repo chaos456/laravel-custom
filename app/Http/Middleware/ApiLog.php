@@ -39,7 +39,7 @@ class ApiLog
 
     protected function enableRequestId()
     {
-        Log::withContext(['request_id' => Context::singleton()->getUuid()]);
+        Log::withContext(['request_id' => Context::singleton()->getRequestId()]);
         CustomLog::setWithRequestId(true);
     }
 
