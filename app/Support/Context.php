@@ -6,7 +6,8 @@ use App\Traits\InstanceMake;
 use Illuminate\Support\Str;
 
 /**
- * 单次网络请求中的上下文 每条日志中将携带 uuid参数
+ * 单次网络请求中的上下文
+ * 每条日志中将携带 uuid参数
  */
 class Context
 {

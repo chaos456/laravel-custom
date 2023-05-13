@@ -5,6 +5,9 @@ namespace App\Traits;
 use App\Constants\ResponseCode;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * 使用此trait的类 支持项目标准api返回
+ */
 trait ApiResponse
 {
     /**

@@ -7,6 +7,9 @@ use Monolog\Handler\RotatingFileHandler;
 use Monolog\Formatter\LineFormatter;
 use Carbon\Carbon;
 
+/**
+ * 自定义日志类
+ */
 class CustomLog
 {
     protected static array $logChannel;
