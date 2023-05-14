@@ -7,7 +7,6 @@ use App\Support\Context;
 use App\Support\CustomLog;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
 class ApiLog
