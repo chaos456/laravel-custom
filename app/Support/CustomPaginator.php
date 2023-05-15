@@ -25,10 +25,7 @@ class CustomPaginator extends LengthAwarePaginator
     }
 
     /**
-     * **重写方法**
-     *
      * 重新定义分页的输出格式
-     *
      * @return array
      */
     public function toArray(): array

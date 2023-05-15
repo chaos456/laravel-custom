@@ -2,7 +2,7 @@
 
 namespace App\Support;
 
-use App\Traits\InstanceMake;
+use App\Support\Traits\InstanceMake;
 use Illuminate\Support\Str;
 
 /**

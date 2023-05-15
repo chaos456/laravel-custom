@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\ModelMacroIdeHelper;
+use App\Support\Traits\ModelMacroIdeHelper;
 use Illuminate\Database\Eloquent\Model;
 
 

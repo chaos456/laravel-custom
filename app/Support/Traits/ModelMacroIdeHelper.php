@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Traits;
+namespace App\Support\Traits;
 
 use App\Support\BuilderMacro;
 use Illuminate\Database\Eloquent\Builder;
 
 
 /**
- * @method Builder|static query()
+ * @method static Builder|static query()
  * @method Builder|static|$this whereEqDate(string $field, string $date)
  * @method Builder|static|$this whereToday(string $field)
  * @method Builder|static|$this whereYesterday(string $field)

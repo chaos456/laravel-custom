@@ -20,5 +20,11 @@ return [
      */
     'sql_log' => [
         'enable' => env('SQL_LOG_ENABLE', false) // 是否开启sql日志记录
-    ]
+    ],
+    /**
+     * 自定义http客户端配置
+     */
+    'custom_client' => [
+        'timeout' => 10 // 默认超时时间
+    ],
 ];

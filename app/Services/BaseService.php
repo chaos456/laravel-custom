@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Traits\InstanceMake;
+use App\Support\Traits\InstanceMake;
 
 abstract class BaseService
 {

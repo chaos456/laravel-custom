@@ -21,14 +21,13 @@
 详见 [ResponseCode](./app/Constants/ResponseCode.php)
 ### 实现
 在需要标准返回的类中引入trait [ApiResponse](./app/Traits/ApiResponse.php) 并调用其三个方法之一
+
 ```php
 <?php
 
 namespace App\Http\Controllers;
 
-use App\Constants\ResponseCode;
-use App\Traits\ApiResponse;
-use Illuminate\Http\Request;
+use App\Constants\ResponseCode;use App\Support\Traits\ApiResponse;use Illuminate\Http\Request;
 
 class ExampleController extends BaseController
 {

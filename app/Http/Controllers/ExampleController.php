@@ -11,8 +11,7 @@ class ExampleController extends BaseController
 {
     public function index(Request $request)
     {
-        Log::info(1);
-        $data = User::query()->customSimplePaginate();
+        $data = User::query()->customPaginate();
 
         return $this->response(ResponseCode::SUCCESS, $data, '成功');
     }

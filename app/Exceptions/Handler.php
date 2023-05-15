@@ -6,7 +6,7 @@ use App\Constants\CustomLogChannel;
 use App\Constants\ResponseCode;
 use App\Support\Context;
 use App\Support\CustomLog;
-use App\Traits\ApiResponse;
+use App\Support\Traits\ApiResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Reflector;
 use Illuminate\Validation\ValidationException;

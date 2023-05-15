@@ -8,7 +8,7 @@
 namespace App\Exceptions;
 
 use App\Constants\ResponseCode;
-use App\Traits\ApiResponse;
+use App\Support\Traits\ApiResponse;
 use Exception;
 use Illuminate\Http\Request;
 
