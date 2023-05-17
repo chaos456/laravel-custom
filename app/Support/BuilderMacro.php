@@ -38,7 +38,7 @@ class BuilderMacro
          *
          * @param int $page 页码
          * @param int $perPage 每页数量
-         * @return SimplePaginator
+         * @return CustomSimplePaginator
          */
         return function (int $page = null, int $perPage = null) {
             /** @var Builder $this */
@@ -48,7 +48,7 @@ class BuilderMacro
 
             $list = $this->forPage($page, min($perPage, $maxPerPage))->get();
 
-            return new SimplePaginator($list);
+            return new CustomSimplePaginator($list);
         };
     }
 

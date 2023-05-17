@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @method Builder|static|$this whereToday(string $field)
  * @method Builder|static|$this whereYesterday(string $field)
  * @method \App\Support\CustomPaginator customPaginate(int $page = null, int $perPage = null)
- * @method \App\Support\SimplePaginator customSimplePaginate(int $page = null, int $perPage = null)
+ * @method \App\Support\CustomSimplePaginator customSimplePaginate(int $page = null, int $perPage = null)
  * @see BuilderMacro;
  */
 trait ModelMacroIdeHelper
