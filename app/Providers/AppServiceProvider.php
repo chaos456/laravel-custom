@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Support\BuilderMacro;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Carbon::setLocale('zh');
+        Builder::mixin(new BuilderMacro());
     }
 }
