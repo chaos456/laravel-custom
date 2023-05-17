@@ -7,5 +7,5 @@ namespace App\Constants;
  */
 class RedisKey
 {
-    const SERIAL = 'serial:%s:%s_%s'; // 接口串行化-防并发
+    public const SERIAL = 'serial:%s:%s_%s'; // 接口串行化-防并发
 }

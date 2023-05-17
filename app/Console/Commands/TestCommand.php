@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Constants\CustomLogChannel;
-use App\Models\User;
-use App\Support\CustomLog;
+use App\Constants\RedisKey;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -30,7 +28,8 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        CustomLog::channel(CustomLogChannel::SQL)->info('1');
+        $key = sprintf(RedisKey::SERIAL, 'a', 1, 'c');
+//        CustomLog::channel(CustomLogChannel::SQL)->info('1');
 //        User::factory(10)->create();
 
         return self::SUCCESS;
