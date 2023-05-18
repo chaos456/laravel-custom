@@ -14,8 +14,7 @@ class HolidayApiService extends CustomClient
 
     protected function handleResponse(ResponseInterface $response): array
     {
-        $content = parent::handleResponse($response);
-        return json_decode($content, true);
+        return json_decode(parent::handleResponse($response), true);
     }
 
     public function dayInfo(string $day, array $options = ['back' => 'json'])
