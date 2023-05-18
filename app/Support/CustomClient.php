@@ -5,6 +5,7 @@ namespace App\Support;
 use App\Support\Traits\InstanceMake;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
 abstract class CustomClient
 {
@@ -46,7 +47,7 @@ abstract class CustomClient
         return $this->request('GET', $url, $options);
     }
 
-    protected function post(string $url, $options = [])
+    protected function post(string $url, array $options = [])
     {
         return $this->request('POST', $url, $options);
     }
@@ -62,7 +63,7 @@ abstract class CustomClient
         return $response->getBody()->getContents();
     }
 
-    protected function handleException(\Throwable $throwable)
+    protected function handleException(Throwable $throwable)
     {
         throw $throwable;
     }
