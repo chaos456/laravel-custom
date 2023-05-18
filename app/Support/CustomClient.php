@@ -31,6 +31,7 @@ abstract class CustomClient
     protected function request(string $method, string $url, array $options = [])
     {
         try {
+            $options = $this->handleRequest($options);
             $response = $this->client->request($method, $url, $options);
 
             $data = $this->handleResponse($response);
@@ -47,15 +48,16 @@ abstract class CustomClient
         return $this->request('GET', $url, $options);
     }
 
-    protected function post(string $url, array $options = [])
+    protected function postForm(string $url, array $data = [], array $options = [])
     {
+        $options['form_params'] = $data;
         return $this->request('POST', $url, $options);
     }
 
     protected function postJson(string $url, array $data = [], array $options = [])
     {
         $options['json'] = $data;
-        return $this->post($url, $options);
+        return $this->request('POST', $url, $options);
     }
 
     protected function handleResponse(ResponseInterface $response): mixed
@@ -66,5 +68,10 @@ abstract class CustomClient
     protected function handleException(Throwable $throwable)
     {
         throw $throwable;
+    }
+
+    protected function handleRequest(array $options): array
+    {
+        return $options;
     }
 }
