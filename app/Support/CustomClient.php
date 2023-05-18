@@ -27,30 +27,43 @@ abstract class CustomClient
         return config('support.custom_client.timeout', 10);
     }
 
-    protected function request(string $method, string $url, array $options)
+    protected function request(string $method, string $url, array $options = [])
     {
-        $response = $this->client->request($method, $url, $options);
+        try {
+            $response = $this->client->request($method, $url, $options);
 
-        return $this->handleResponse($response);
+            $data = $this->handleResponse($response);
+
+            return $data;
+        } catch (\Throwable $throwable) {
+            $this->handleException($throwable);
+        }
     }
 
-    protected function get(string $url, array $options)
+    protected function get(string $url, array $data = [], array $options = [])
     {
-        $this->request('GET', $url, $options);
+        $options['query'] = $data;
+        return $this->request('GET', $url, $options);
     }
 
-    protected function post(string $url, array $options)
+    protected function post(string $url, $options = [])
     {
-        $this->request('POST', $url, $options);
+        return $this->request('POST', $url, $options);
     }
 
-    protected function handleResponse(ResponseInterface $response):mixed
+    protected function postJson(string $url, array $data = [], array $options = [])
     {
-
+        $options['json'] = $data;
+        return $this->post($url, $options);
     }
 
-    protected function handleException()
+    protected function handleResponse(ResponseInterface $response): mixed
     {
+        return $response->getBody()->getContents();
+    }
 
+    protected function handleException(\Throwable $throwable)
+    {
+        throw $throwable;
     }
 }
