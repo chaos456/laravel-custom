@@ -13,12 +13,13 @@ abstract class CustomClient
 
     protected Client $client;
 
-    public function __construct()
+    public function __construct($options = [])
     {
-        $this->client = new Client([
+        $options = array_merge([
             'base_uri' => $this->baseUri(),
             'timeout' => $this->timeout()
-        ]);
+        ], $options);
+        $this->client = new Client($options);
     }
 
     abstract protected function baseUri(): string;
