@@ -42,7 +42,7 @@ class CustomLog
         $logger->pushHandler($handler);
         if (self::$withRequestId) {
             $logger->pushProcessor(function ($record) {
-                $record['extra'] = ['request_id' => Context::singleton()->getRequestId()];
+                $record['extra']['request_id'] = Context::singleton()->getRequestId();
                 return $record;
             });
         }

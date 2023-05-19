@@ -6,8 +6,7 @@ use App\Support\Traits\InstanceMake;
 use Illuminate\Support\Str;
 
 /**
- * 单次网络请求中的上下文
- * 每条日志中将携带 uuid参数
+ * 单次网络请求中的上下文类
  */
 class Context
 {
@@ -33,7 +32,7 @@ class Context
      */
     protected function generateRequestId()
     {
-        return sprintf('%s%s', Str::random(5), uniqid());
+        return Str::uuid()->getHex()->toString();
     }
 
     /**

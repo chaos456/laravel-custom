@@ -9,7 +9,7 @@ class HolidayApiServiceTest extends TestCase
 {
     public function testDayInfo()
     {
-        $res = HolidayApiService::make()->dayInfo('20230510', ['info' => 1]);
+        $res = HolidayApiService::make()->dayInfo('20230520');
 
         dump($res);
 

@@ -5,9 +5,9 @@ namespace App\Http\Middleware;
 use App\Constants\CustomLogChannel;
 use App\Support\Context;
 use App\Support\CustomLog;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ApiLog
 {
@@ -28,7 +28,7 @@ class ApiLog
     public function handle(Request $request, Closure $next)
     {
         $this->request = $request;
-        $this->enableRequestId();
+        $this->enableLogRequestId();
 
         config('support.api_log.enable') && $this->requestLog();
         $response = $next($request);
@@ -37,9 +37,19 @@ class ApiLog
         return $response;
     }
 
-    protected function enableRequestId()
+    /**
+     * 使日志支持request id
+     * @return void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    protected function enableLogRequestId()
     {
-        Log::withContext(['request_id' => Context::singleton()->getRequestId()]);
+        $logger = app()->make('log');
+        $logger->pushProcessor(function ($record) {
+            $record['extra']['request_id'] = Context::singleton()->getRequestId();
+            return $record;
+        });
+
         CustomLog::setWithRequestId(true);
     }
 
@@ -50,8 +60,9 @@ class ApiLog
     protected function requestLog()
     {
         CustomLog::channel(CustomLogChannel::API_LOG)->info(
-            sprintf('REQUEST %s %s', $this->request->getMethod(), $this->request->getPathInfo()), [
-                'body' => $this->request->all()
+            sprintf('request %s %s', $this->request->getMethod(), $this->request->getPathInfo()), [
+                'params' => $this->request->all(),
+                'time' => Carbon::createFromTimestamp(LARAVEL_START)->toDateTimeString('microsecond')
             ]
         );
     }
@@ -75,6 +86,6 @@ class ApiLog
             $extra['data'] = $content['data'];
         }
 
-        CustomLog::channel(CustomLogChannel::API_LOG)->info('RESPONSE', $extra);
+        CustomLog::channel(CustomLogChannel::API_LOG)->info('response', $extra);
     }
 }
