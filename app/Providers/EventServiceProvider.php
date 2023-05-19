@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Listeners\RedisListener;
 use App\Listeners\SqlListener;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Redis\Events\CommandExecuted;
+use Illuminate\Support\Facades\Redis;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -16,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         QueryExecuted::class => [
             SqlListener::class
+        ],
+        CommandExecuted::class => [
+            RedisListener::class
         ]
     ];
 
@@ -27,6 +33,9 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        if (config('support.redis_log.enable')) {
+            Redis::enableEvents();
+        }
     }
 
     /**

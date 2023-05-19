@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Constants\RedisKey;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Redis;
 
 class TestCommand extends Command
 {
@@ -29,8 +30,9 @@ class TestCommand extends Command
     public function handle()
     {
         $key = sprintf(RedisKey::SERIAL, 'a', 1, 'c');
-//        CustomLog::channel(CustomLogChannel::SQL)->info('1');
-//        User::factory(10)->create();
+
+        Redis::connection()->set($key, '123');
+        Redis::connection()->get($key);
 
         return self::SUCCESS;
     }

@@ -29,6 +29,6 @@ class SqlListener
             return is_string($item) ? "'$item'" : $item;
         }, $event->sql);
 
-        CustomLog::channel(CustomLogChannel::SQL)->info(sprintf('[%sms] %s', $event->time, $rawSql));
+        CustomLog::channel(CustomLogChannel::SQL)->info(sprintf('[%s][%sms] %s',$event->connectionName, $event->time, $rawSql));
     }
 }

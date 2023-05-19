@@ -15,4 +15,7 @@ class CustomLogChannel
 
     // 记录sql日志
     const SQL = 'sql';
+
+    // 记录sql日志
+    const REDIS = 'redis';
 }
