@@ -42,9 +42,9 @@ abstract class CustomClient
         }
     }
 
-    protected function get(string $url, array $data = [], array $options = [])
+    protected function get(string $url, array $query = [], array $options = [])
     {
-        $options['query'] = $data;
+        $options['query'] = $query;
         return $this->request('GET', $url, $options);
     }
 

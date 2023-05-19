@@ -17,9 +17,9 @@ class HolidayApiService extends CustomClient
         return json_decode(parent::handleResponse($response), true);
     }
 
-    public function dayInfo(string $day, array $options = ['back' => 'json']): array
+    public function dayInfo(string $day, array $data = ['back' => 'json']): array
     {
-        $options['d'] = $day;
-        return $this->get('/jiari', $options);
+        $data['d'] = $day;
+        return $this->get('/jiari', $data);
     }
 }
