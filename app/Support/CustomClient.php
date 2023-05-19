@@ -31,13 +31,13 @@ abstract class CustomClient
     protected function request(string $method, string $url, array $options = [])
     {
         try {
-            $options = $this->handleRequest($options);
+            $options = $this->handleRequest($method, $url, $options);
             $response = $this->client->request($method, $url, $options);
 
             $data = $this->handleResponse($response);
 
             return $data;
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->handleException($throwable);
         }
     }
@@ -70,7 +70,7 @@ abstract class CustomClient
         throw $throwable;
     }
 
-    protected function handleRequest(array $options): array
+    protected function handleRequest(string $method, string $url, array $options = []): array
     {
         return $options;
     }
