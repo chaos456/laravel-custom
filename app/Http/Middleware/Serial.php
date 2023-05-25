@@ -17,7 +17,7 @@ class Serial
     /**
      * 接口防并发中间件-实现接口幂等性 ->  限制对资源的并发访问
      *
-     * 用法举例:->middleware('serial:order_id,1') 表示对此地址的同一 $order_id 为唯一值请求进行串行化处理，1秒超时，
+     * 用法举例:->middleware('serial:order_id,1') 表示对此地址的同一 order_id 为唯一值请求进行串行化处理，1秒超时，
      * @param Request $request
      * @param Closure $next
      * @param string $var 用于唯一标识的变量
@@ -29,7 +29,7 @@ class Serial
     {
         $key = sprintf(RedisKey::SERIAL, $request->path(), $var, $this->parseUniqueValue($request, $var));
 
-        $owner = uniqid('', true) . Str::random();
+        $owner = Str::uuid()->toString();
 
         $redisLock = new RedisLock(Redis::connection(), $key, $timeOutSeconds, $owner);
         if (!$redisLock->acquire()) {

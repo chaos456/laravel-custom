@@ -3,10 +3,12 @@
 namespace App\Http\Middleware;
 
 use App\Constants\CustomLogChannel;
+use App\Support\AsyncExec;
 use App\Support\Context;
 use App\Support\CustomLog;
 use Carbon\Carbon;
 use Closure;
+use Throwable;
 use Illuminate\Http\Request;
 
 class ApiLog
@@ -33,6 +35,7 @@ class ApiLog
         config('support.api_log.enable') && $this->requestLog();
         $response = $next($request);
         config('support.api_log.enable') && $this->responseLog($response);
+        $response->header('Request-Id', Context::singleton()->getRequestId());
 
         return $response;
     }
@@ -62,7 +65,7 @@ class ApiLog
         CustomLog::channel(CustomLogChannel::API_LOG)->info(
             sprintf('request %s %s', $this->request->getMethod(), $this->request->getPathInfo()), [
                 'params' => $this->request->all(),
-                'time' => Carbon::createFromTimestamp(LARAVEL_START)->toDateTimeString('microsecond')
+                'time'   => Carbon::createFromTimestamp(LARAVEL_START)->toDateTimeString('microsecond')
             ]
         );
     }
@@ -74,18 +77,28 @@ class ApiLog
      */
     protected function responseLog($response)
     {
-        $content = json_decode($response->getContent(), true);
+        try {
+            $content = json_decode($response->getContent(), true);
 
-        $extra = [
-            'code' => $content['code'],
-            'msg' => $content['msg'],
-            'used_time' => round((microtime(true) - LARAVEL_START) * 1000, 2) . 'ms'
-        ];
+            $extra = [
+                'code' => $content['code'],
+                'msg'  => $content['msg'],
+            ];
 
-        if (in_array($this->request->getPathInfo(), $this->logResponsePath)) {
-            $extra['data'] = $content['data'];
+            if (in_array($this->request->getPathInfo(), $this->logResponsePath)) {
+                $extra['data'] = $content['data'];
+            }
+        } catch (Throwable $throwable) {
+            $extra = [];
         }
 
-        CustomLog::channel(CustomLogChannel::API_LOG)->info('response', $extra);
+        $cost = round((microtime(true) - LARAVEL_START) * 1000, 2);
+
+        CustomLog::channel(CustomLogChannel::API_LOG)->info(sprintf('response cost %s', $cost . 'ms'), $extra);
+    }
+
+    public function terminate($request, $response)
+    {
+        AsyncExec::execute();
     }
 }

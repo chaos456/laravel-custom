@@ -24,15 +24,7 @@ class Context
      */
     public function setRequestId(): void
     {
-        $this->requestId = $this->generateRequestId();
-    }
-
-    /**
-     * @param string $uuid
-     */
-    protected function generateRequestId()
-    {
-        return Str::uuid()->getHex()->toString();
+        $this->requestId = Str::uuid()->getHex()->toString();
     }
 
     /**

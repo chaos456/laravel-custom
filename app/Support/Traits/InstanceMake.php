@@ -1,23 +1,14 @@
 <?php
+
 namespace App\Support\Traits;
 
 
 /**
- * 用于快速构建类的实例
+ * 用于快速创建类的实例
  */
 trait InstanceMake
 {
     protected static $singleton;
-
-    /**
-     * 返回类的实例
-     * @param ...$parameters
-     * @return static
-     */
-    public static function make(...$parameters): static
-    {
-        return new static(...$parameters);
-    }
 
     /**
      * 返回类的单例
@@ -31,5 +22,15 @@ trait InstanceMake
         }
 
         return static::$singleton;
+    }
+
+    /**
+     * 返回类的实例
+     * @param ...$parameters
+     * @return static
+     */
+    public static function make(...$parameters): static
+    {
+        return new static(...$parameters);
     }
 }

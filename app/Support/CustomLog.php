@@ -35,8 +35,7 @@ class CustomLog
         $logFilePath = sprintf('%s/%s.log', storage_path('logs'), $name);
         $handler = new RotatingFileHandler($logFilePath, config('logging.channels.daily.days'));
 
-        $format = "[%datetime%] %level_name%: %message% %context% %extra%\n";
-        $handler->setFormatter(new LineFormatter($format, Carbon::DEFAULT_TO_STRING_FORMAT, true, true));
+        $handler->setFormatter(new LineFormatter(null, Carbon::DEFAULT_TO_STRING_FORMAT, true, true));
 
         $logger = new Logger($name);
         $logger->pushHandler($handler);

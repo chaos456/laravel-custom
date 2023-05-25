@@ -31,7 +31,7 @@ class BuilderMacro
         };
     }
 
-    public function customSimplePaginate()
+    public function customSimplePaginate(): callable
     {
         /**
          * 自定义简单分页，无分页信息
@@ -52,6 +52,19 @@ class BuilderMacro
         };
     }
 
+    public function customExist()
+    {
+        /**
+         * 自定义exist方法
+         */
+        return function () {
+            /** @var Builder $this */
+            $first = $this->selectRaw(1)->first();
+
+            return $first ? true : false;
+        };
+    }
+
     public function whereEqDate(): callable
     {
         /**
@@ -67,10 +80,7 @@ class BuilderMacro
              * @var Builder $query
              */
             $time = Carbon::parse($date);
-            return $this->where(
-                fn($query) => $query->where($field, '>=', $time->startOfDay()->toDateTimeString())
-                    ->where($field, '<=', $time->endOfDay()->toDateTimeString())
-            );
+            return $this->whereBetween($field, [$time->startOfDay()->toDateTimeString(), $time->endOfDay()->toDateTimeString()]);
         };
     }
 
@@ -88,10 +98,7 @@ class BuilderMacro
              * @var Builder $query
              */
             $time = Carbon::now();
-            return $this->where(
-                fn($query) => $query->where($field, '>=', $time->startOfDay()->toDateTimeString())
-                    ->where($field, '<=', $time->endOfDay()->toDateTimeString())
-            );
+            return $this->whereBetween($field, [$time->startOfDay()->toDateTimeString(), $time->endOfDay()->toDateTimeString()]);
         };
     }
 
@@ -109,10 +116,28 @@ class BuilderMacro
              * @var Builder $query
              */
             $time = Carbon::yesterday();
-            return $this->where(
-                fn($query) => $query->where($field, '>=', $time->startOfDay()->toDateTimeString())
-                    ->where($field, '<=', $time->endOfDay()->toDateTimeString())
-            );
+            return $this->whereBetween($field, [$time->startOfDay()->toDateTimeString(), $time->endOfDay()->toDateTimeString()]);
+        };
+    }
+
+    public function whereLike()
+    {
+        /**
+         * @param string $field
+         * @param string $value
+         * @return Builder
+         */
+        return function (string $field, string $value, string $type = '') {
+            /**
+             * @var Builder $this
+             */
+            $expression = match ($type) {
+                'left' => '%' . $value,
+                'right' => $value . '%',
+                default => '%' . $value . '%'
+            };
+
+            return $this->where($field, 'like', $expression);
         };
     }
 }

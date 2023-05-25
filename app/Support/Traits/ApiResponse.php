@@ -6,7 +6,7 @@ use App\Constants\ResponseCode;
 use Illuminate\Http\JsonResponse;
 
 /**
- * 使用此trait的类 支持项目标准api返回
+ * 支持项目标准api json响应
  */
 trait ApiResponse
 {
@@ -37,12 +37,11 @@ trait ApiResponse
     /**
      * 标准成功返回
      * @param array|object $data 返回数据
-     * @param int $responseCode
      * @return JsonResponse
      */
-    public function responseSuccess(array|object $data = [], int $responseCode = ResponseCode::SUCCESS): JsonResponse
+    public function responseSuccess(array|object $data = []): JsonResponse
     {
-        return $this->response($responseCode, $data);
+        return $this->response(ResponseCode::SUCCESS, $data);
     }
 
     /**
