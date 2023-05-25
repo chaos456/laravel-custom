@@ -14,6 +14,7 @@ class ExampleController extends BaseController
 {
     public function index(Request $request)
     {
+        \redis()->set('a','b');
         return $this->response(ResponseCode::SUCCESS, [], '成功');
     }
 }

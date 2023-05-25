@@ -8,16 +8,12 @@
 namespace App\Exceptions;
 
 use App\Constants\ResponseCode;
-use App\Support\Traits\ApiResponse;
+use App\Support\Traits\ExceptionRender;
 use Exception;
-use Illuminate\Http\Request;
 
 class UnauthorizedException extends Exception
 {
-    use ApiResponse;
+    use ExceptionRender;
 
-    public function render(Request $request)
-    {
-        return $this->responseError($this->getMessage(), ResponseCode::UNAUTHORIZED);
-    }
+    protected $responseCode = ResponseCode::UNAUTHORIZED;
 }
