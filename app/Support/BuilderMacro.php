@@ -132,8 +132,8 @@ class BuilderMacro
              * @var Builder $this
              */
             $expression = match ($type) {
-                'left' => '%' . $value,
-                'right' => $value . '%',
+                'left', 'l' => $value . '%',
+                'right', 'r' => '%' . $value,
                 default => '%' . $value . '%'
             };
 
