@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Middleware\ApiLog;
-use App\Http\Middleware\RateLimit;
 use App\Http\Middleware\Serial;
 use Illuminate\Redis\RedisServiceProvider;
 
@@ -90,7 +89,6 @@ $app->middleware([
 
 $app->routeMiddleware([
     'serial'     => Serial::class,
-    'rete_limit' => RateLimit::class
 ]);
 
 /*
