@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Carbon;
 
 /**
@@ -138,6 +139,44 @@ class BuilderMacro
             };
 
             return $this->where($field, 'like', $expression);
+        };
+    }
+
+    public function insertOnDuplicate()
+    {
+        /**
+         * @param string $field
+         * @param string $value
+         * @return bool
+         */
+        return function (array $attribute, array $onDuplicate) {
+            /**
+             * @var Builder $this
+             */
+            $builder = $this->getQuery();
+            $grammar = $builder->getGrammar();
+
+            $insert = $grammar->compileInsert($builder, $attribute);
+            $update = collect($onDuplicate)->map(function ($value, $key) use ($grammar) {
+                return $grammar->wrap($key) . ' = ' . $grammar->parameter($value);
+            })->implode(', ');
+
+            $query = $insert . ' on duplicate key update ' . $update;
+            $bindings = [];
+            foreach ($attribute as $item) {
+                if ($item instanceof Expression) {
+                    continue;
+                }
+                $bindings[] = $item;
+            }
+            foreach ($onDuplicate as $item) {
+                if ($item instanceof Expression) {
+                    continue;
+                }
+                $bindings[] = $item;
+            }
+
+            return $this->getConnection()->insert($query, $bindings);
         };
     }
 }

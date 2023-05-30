@@ -3,8 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Exceptions\ServiceException;
+use App\Models\Test;
 use App\Models\User;
+use App\Services\HolidayApiService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 
 class TestCommand extends Command
@@ -30,6 +33,9 @@ class TestCommand extends Command
      */
     public function handle()
     {
+        $r = HolidayApiService::singleton()->dayInfo('20220501');
+        dump($r);
+        die;
         User::query()->whereLike('name', 'a')->get();
         die;
         $key = 'abcd';

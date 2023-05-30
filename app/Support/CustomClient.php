@@ -63,7 +63,7 @@ abstract class CustomClient
 
     protected function handleResponse(ResponseInterface $response): mixed
     {
-        return $response->getBody()->getContents();
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     protected function handleException(Throwable $throwable)

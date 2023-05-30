@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @method \App\Support\CustomPaginator customPaginate(int $page = null, int $perPage = null)
  * @method \App\Support\CustomSimplePaginator customSimplePaginate(int $page = null, int $perPage = null)
  * @method bool customExist()
+ * @method bool insertOnDuplicate(array $attribute, array $onDuplicate)
  * @see BuilderMacro;
  */
 trait ModelMacroIdeHelper
