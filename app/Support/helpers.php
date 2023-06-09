@@ -1,7 +1,5 @@
 <?php
 
-use App\Exceptions\ServiceException;
-use Illuminate\Support\Facades\RateLimiter;
 
 /**
  * @param string|null $name

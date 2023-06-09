@@ -88,7 +88,7 @@ $app->middleware([
 ]);
 
 $app->routeMiddleware([
-    'serial'     => Serial::class,
+    'serial' => Serial::class,
 ]);
 
 /*

@@ -10,6 +10,7 @@ use App\Support\Traits\ApiResponse;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -72,6 +73,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e)
     {
+        Config::set('support.api_log.enable', true);
+
         if (method_exists($e, 'render')) {
             return $e->render($request);
         } elseif ($e instanceof Responsable) {

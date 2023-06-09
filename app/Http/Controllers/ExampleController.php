@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ForbiddenException;
-use App\Exceptions\ServiceException;
 use App\Models\User;
-use App\Support\AsyncExec;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\RateLimiter;
 
 class ExampleController extends Controller
 {
@@ -26,6 +20,13 @@ class ExampleController extends Controller
 
     public function index(Request $request)
     {
-        return $this->responseSuccess(get_included_files());
+        $user = User::query()->customPaginate();
+        $user->getCollection()->transform(function ($value) {
+            return [
+                'created_at' => $value['created_at']->format('Y-m-d')
+            ];
+        });
+
+        return $this->responseSuccess($user);
     }
 }

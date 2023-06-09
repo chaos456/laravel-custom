@@ -31,12 +31,8 @@ class CustomPaginator extends LengthAwarePaginator
     public function toArray(): array
     {
         return [
-            'paginate' => [
-                'total' => $this->total(),
-                config('support.pagination.page_param') => $this->currentPage(),
-                config('support.pagination.page_size_param') => $this->perPage(),
-            ],
-            'list' => $this->getCollection(),
+            'total' => $this->total(),
+            'list'  => $this->getCollection(),
         ];
     }
 }
