@@ -12,13 +12,6 @@ use Illuminate\Http\Request;
 class ApiLog
 {
     /**
-     * 需要记录响应的路由
-     * @var array
-     */
-    protected $logResponsePath = [
-    ];
-
-    /**
      * @param Request $request
      * @param Closure $next
      * @return mixed
