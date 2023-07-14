@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ExampleController extends Controller
 {
@@ -20,11 +20,8 @@ class ExampleController extends Controller
 
     public function index(Request $request)
     {
-        $user = User::query()->customPaginate();
-        $user->getCollection()->transform(function ($value) {
-            return [
-                'created_at' => $value['created_at']->format('Y-m-d')
-            ];
+        $user = Cache::remember('abc', 3600, function () {
+            return ['abc'];
         });
 
         return $this->responseSuccess($user);
