@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Support\BuilderMacro;
+use App\Support\Context;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\ServiceProvider;

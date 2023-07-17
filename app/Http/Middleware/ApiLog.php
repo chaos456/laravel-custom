@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Constants\CustomLogChannel;
+use App\Support\AsyncExec;
 use App\Support\Context;
 use App\Support\CustomLog;
 use Carbon\Carbon;
@@ -47,11 +48,13 @@ class ApiLog
             CustomLog::channel(CustomLogChannel::API_LOG)->info(sprintf('%s %s', $request->getMethod(), $request->getPathInfo()),
                 [
                     'request'        => $request->all(),
-                    'request_header' => $request->header(),
+//                    'request_header' => $request->header(),
                     'request_time'   => Carbon::createFromTimestamp(LARAVEL_START)->toDateTimeString('microsecond'),
                     'cost'           => $cost
                 ]
             );
         }
+
+        AsyncExec::execute();
     }
 }

@@ -3,11 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Exceptions\ServiceException;
-use App\Models\Test;
 use App\Models\User;
-use App\Services\HolidayApiService;
+use App\Services\ApiService\HolidayApiService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 
 class TestCommand extends Command

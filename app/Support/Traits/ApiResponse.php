@@ -3,6 +3,7 @@
 namespace App\Support\Traits;
 
 use App\Constants\ResponseCode;
+use App\Support\Context;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -28,9 +29,10 @@ trait ApiResponse
         }
 
         return response()->json([
-            'code' => $code,
-            'data' => $data,
-            'msg'  => $msg
+            'code'       => $code,
+            'data'       => $data,
+            'msg'        => $msg,
+            'request_id' => Context::singleton()->getRequestId()
         ]);
     }
 

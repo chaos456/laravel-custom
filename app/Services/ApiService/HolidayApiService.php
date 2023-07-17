@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\ApiService;
 
 use App\Support\CustomClient;
 

@@ -17,19 +17,19 @@
 #### 响应码、响应msg枚举
 详见 [ResponseCode](./app/Constants/ResponseCode.php)
 
-## 异常
-#### 统一异常处理
-#### 统一异常api json响应
-
 ## 统一分页接口入参、出参
 
-## 统一http client
+## 异常
+#### 统一异常处理
+#### 统一异常json响应
 
 ## 日志
 #### 通过request id 打通日志链路
 #### 请求、响应日志记录
 #### sql日志监听
 #### redis命令日志监听
+
+## 统一http client
 
 ## 串行化（防止资源同一时间被占用）中间件
 
