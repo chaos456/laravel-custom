@@ -1,6 +1,3 @@
-# laravel-custom
-个人自定义laravel项目，用于快速构建laravel/lumen api项目<br/>
-
 ## 目录结构
 
 - Support 存放支持项目运行的类与助手函数文件helper.php
