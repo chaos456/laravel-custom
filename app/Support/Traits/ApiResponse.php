@@ -2,8 +2,8 @@
 
 namespace App\Support\Traits;
 
-use App\Constants\ResponseCode;
-use App\Support\Context;
+use App\Enums\ResponseCodeEnum;
+use App\Support\Log\LogContext;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -20,8 +20,9 @@ trait ApiResponse
      */
     public function response(int $code, array|object $data = [], string $msg = ''): JsonResponse
     {
-        if ($msg === '' && isset(ResponseCode::MESSAGE[$code])) {
-            $msg = ResponseCode::MESSAGE[$code];
+        $codeMsg = ResponseCodeEnum::make('code')->translate($code);
+        if ($msg === '' && $codeMsg) {
+            $msg = $codeMsg;
         }
 
         if (empty($data)) {
@@ -29,10 +30,10 @@ trait ApiResponse
         }
 
         return response()->json([
-            'code'       => $code,
-            'data'       => $data,
-            'msg'        => $msg,
-            'request_id' => Context::singleton()->getRequestId()
+            'code'   => $code,
+            'data'   => $data,
+            'msg'    => $msg,
+            'log_id' => LogContext::instance()->getLogId()
         ]);
     }
 
@@ -43,7 +44,7 @@ trait ApiResponse
      */
     public function responseSuccess(array|object $data = []): JsonResponse
     {
-        return $this->response(ResponseCode::SUCCESS, $data);
+        return $this->response(ResponseCodeEnum::SUCCESS, $data);
     }
 
     /**
@@ -52,7 +53,7 @@ trait ApiResponse
      * @param int $code 失败码
      * @return JsonResponse
      */
-    public function responseError(string $msg = '', int $code = ResponseCode::FAIL): JsonResponse
+    public function responseError(string $msg = '', int $code = ResponseCodeEnum::FAIL): JsonResponse
     {
         return $this->response($code, [], $msg);
     }

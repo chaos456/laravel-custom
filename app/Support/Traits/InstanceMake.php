@@ -8,20 +8,20 @@ namespace App\Support\Traits;
  */
 trait InstanceMake
 {
-    protected static $singleton;
+    protected static $instance;
 
     /**
      * 返回类的单例
      * @param ...$parameters
      * @return static
      */
-    public static function singleton(...$parameters): static
+    public static function instance(...$parameters): static
     {
-        if (is_null(static::$singleton)) {
-            static::$singleton = new static(...$parameters);
+        if (is_null(static::$instance)) {
+            static::$instance = new static(...$parameters);
         }
 
-        return static::$singleton;
+        return static::$instance;
     }
 
     /**

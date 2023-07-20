@@ -2,41 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
-use App\Support\AsyncExec;
-use App\Support\CustomLog;
+use App\Enums\LogChannelEnum;
+use App\Exceptions\CommonException;
+use App\Models\AdminModel;
+use App\Support\AsyncExec\AsyncExec;
+use App\Support\Log\CustomLog;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
-class ExampleController extends Controller
+class ExampleController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-
-    }
-
     public function customPage(Request $request)
     {
-        $user = Admin::query()->customPaginate();
+        $user = AdminModel::query()->customPaginate();
+
+        // 如果需要修改list各元素返回信息，比如这里我想如下那么返回
+        $user->getCollection()->transform(function ($value) {
+            return [
+                'id' => $value->id
+            ];
+        });
 
         return $this->responseSuccess($user);
     }
 
     public function customSimplePage()
     {
-        $user = Admin::query()->customSimplePaginate();
+        $user = AdminModel::query()->customSimplePaginate();
 
         return $this->responseSuccess($user);
     }
 
     public function exception()
     {
+        throw new CommonException('报错啦');
         $a = new \stdClass();
 
         return $this->responseSuccess([
@@ -46,7 +44,7 @@ class ExampleController extends Controller
 
     public function serial(Request $request)
     {
-        sleep(5);
+        sleep(8);
 
         return $this->responseSuccess();
     }
@@ -55,31 +53,14 @@ class ExampleController extends Controller
     {
         AsyncExec::defer(function () {
             sleep(5);
-            Log::info('abc');
+            CustomLog::channel()->info('abc');
         });
 
         return $this->responseSuccess();
     }
 
-    public function whereEqDate(Request $request)
+    public function apiPre(Request $request)
     {
-        $user = Admin::query()->whereEqDate('created_at', '2018-03-15')->customPaginate();
-
-        $user->getCollection()->transform(function ($value) {
-            return [
-                'id'         => $value->id,
-                'nickname'   => $value->nickname,
-                'created_at' => $value->created_at->toDateTimeString(),
-            ];
-        });
-
-        return $this->responseSuccess($user);
-    }
-
-    public function log()
-    {
-        Log::info('123');
-        CustomLog::channel('test')->info('123');
         return $this->responseSuccess();
     }
 }

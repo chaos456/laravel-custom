@@ -3,7 +3,8 @@
 namespace App\Http\Middleware;
 
 
-use App\Constants\RedisKey;
+use App\Enums\RedisKeyEnum;
+use App\Exceptions\CommonException;
 use App\Exceptions\ServiceException;
 use Illuminate\Cache\RedisLock;
 use Illuminate\Http\Request;
@@ -27,13 +28,13 @@ class Serial
      */
     public function handle(Request $request, Closure $next, string $var, int $timeOutSeconds = 5)
     {
-        $key = sprintf(RedisKey::SERIAL, $request->path(), $var, $this->parseUniqueValue($request, $var));
+        $key = sprintf(RedisKeyEnum::SERIAL, $request->path(), $var, $this->parseUniqueValue($request, $var));
 
         $owner = Str::uuid()->toString();
 
         $redisLock = new RedisLock(Redis::connection(), $key, $timeOutSeconds, $owner);
         if (!$redisLock->acquire()) {
-            throw new ServiceException('当前资源正在被处理，请稍后再试~');
+            throw new CommonException('当前资源正在被处理，请稍后再试~');
         }
 
         try {

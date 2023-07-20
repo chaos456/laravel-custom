@@ -3,8 +3,8 @@
 namespace App\Listeners;
 
 
-use App\Constants\CustomLogChannel;
-use App\Support\CustomLog;
+use App\Enums\LogChannelEnum;
+use App\Support\Log\CustomLog;
 use Illuminate\Database\Events\QueryExecuted;
 
 class SqlListener
@@ -29,6 +29,6 @@ class SqlListener
             return is_string($item) ? "'$item'" : $item;
         }, $event->sql);
 
-        CustomLog::channel(CustomLogChannel::SQL)->info(sprintf('[%s][%sms] %s',$event->connectionName, $event->time, $rawSql));
+        CustomLog::channel(LogChannelEnum::SQL)->info(sprintf('[%s][%sms] %s',$event->connectionName, $event->time, $rawSql));
     }
 }

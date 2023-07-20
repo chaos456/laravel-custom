@@ -3,8 +3,8 @@
 namespace App\Listeners;
 
 
-use App\Constants\CustomLogChannel;
-use App\Support\CustomLog;
+use App\Enums\LogChannelEnum;
+use App\Support\Log\CustomLog;
 use Illuminate\Redis\Events\CommandExecuted;
 
 class RedisListener
@@ -22,6 +22,6 @@ class RedisListener
             return;
         }
 
-        CustomLog::channel(CustomLogChannel::REDIS)->info(sprintf('[%s][%sms] %s', $event->connectionName, $event->time, $event->command), $event->parameters);
+        CustomLog::channel(LogChannelEnum::REDIS)->info(sprintf('[%s][%sms] %s', $event->connectionName, $event->time, $event->command), $event->parameters);
     }
 }

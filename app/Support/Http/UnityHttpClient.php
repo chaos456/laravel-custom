@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Support;
+namespace App\Support\Http;
 
 use App\Support\Traits\InstanceMake;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
-abstract class CustomClient
+abstract class UnityHttpClient
 {
     use InstanceMake;
 

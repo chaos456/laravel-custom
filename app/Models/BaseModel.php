@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Support\Traits\ModelMacroIdeHelper;
+use App\Support\Macros\BuildMacroIdeHelper;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseModel extends Model
 {
-    use ModelMacroIdeHelper;
+    use BuildMacroIdeHelper;
 
     protected $guarded = ['id'];
 

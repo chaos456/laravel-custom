@@ -7,7 +7,7 @@
 
 namespace App\Exceptions;
 
-use App\Constants\ResponseCode;
+use App\Enums\ResponseCodeEnum;
 use App\Support\Traits\ExceptionRender;
 use Exception;
 
@@ -15,5 +15,5 @@ class ForbiddenException extends Exception
 {
     use ExceptionRender;
 
-    protected $responseCode = ResponseCode::FORBIDDEN;
+    protected $responseCode = ResponseCodeEnum::FORBIDDEN;
 }

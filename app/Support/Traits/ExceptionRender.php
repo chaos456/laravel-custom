@@ -2,7 +2,7 @@
 
 namespace App\Support\Traits;
 
-use App\Constants\ResponseCode;
+use App\Enums\ResponseCodeEnum;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -14,6 +14,6 @@ trait ExceptionRender
 
     public function render(): JsonResponse
     {
-        return $this->responseError($this->getMessage(), isset($this->responseCode) ? $this->responseCode : ResponseCode::FAIL);
+        return $this->responseError($this->getMessage(), isset($this->responseCode) ? $this->responseCode : ResponseCodeEnum::FAIL);
     }
 }

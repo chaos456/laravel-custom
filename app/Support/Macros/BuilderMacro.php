@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Support;
+namespace App\Support\Macros;
 
+use App\Support\Pagination\CustomPaginator;
+use App\Support\Pagination\CustomSimplePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Carbon;
 
 /**
- * 为 Illuminate\Database\Eloquent\Builder 增加新的自定方法
+ * 为 Illuminate\Database\Eloquent\Builder 增加新的自定宏方法
  */
 class BuilderMacro
 {
@@ -23,7 +25,7 @@ class BuilderMacro
         return function (int $page = null, int $perPage = null): CustomPaginator {
             /** @var Builder $this */
             $page = $page ?: request()->integer(config('support.pagination.page_param'), 1);
-            $perPage = $perPage ?: request()->integer(config('support.pagination.page_size_param'), 15);
+            $perPage = $perPage ?: request()->integer(config('support.pagination.page_size_param'), config('support.pagination.default_page_size'));
             $maxPerPage = config('support.pagination.max_page_size');
 
             $instance = $this->paginate(page: $page, perPage: min($perPage, $maxPerPage));

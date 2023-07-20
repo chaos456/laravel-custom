@@ -3,7 +3,7 @@
 namespace App\Models;
 
 
-class Admin extends BaseModel
+class AdminModel extends BaseModel
 {
     protected $table = 'admin';
 }

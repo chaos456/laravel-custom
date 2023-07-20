@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Support;
+namespace App\Support\AsyncExec;
 
 use Closure;
 
 /**
- * AsyncExec
- * fpm模式下 异步（延时）执行的助手类
- * 将在响应后继续占用fpm进程执行
+ * 异步执行服务
+ * fpm模式下 异步（延时）执行的服务类，将在响应后继续占用fpm进程执行
  * 利用了 fastcgi_finish_request() 函数
  * 注意点：
  *      执行时间问题，限制执行时间为 10分钟，但是大量的调用会导致fpm的worker进程被占用，从而可能使得fpm进程数快速上升
